@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.MediaController
 import android.widget.VideoView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,22 +15,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        // Initialize VideoView and set video source
-        val videoView = findViewById<VideoView>(R.id.videoView)
-        val videoPath = "https://www.youtube.com/watch?v=RmYyHadWyRE"
         val mediaController = MediaController(this)
-        mediaController.setAnchorView(videoView)
-        videoView.setMediaController(mediaController)
-        videoView.setVideoURI(Uri.parse(videoPath))
-        videoView.requestFocus()
-        videoView.start()
+        val uri: Uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.thestoryoflight)
+        val myvideoview = findViewById<VideoView>(R.id.videoView)
+        myvideoview.setMediaController(mediaController)
+        mediaController.setAnchorView(myvideoview)
+        myvideoview.setVideoURI(uri)
+        myvideoview.requestFocus()
+        myvideoview.start()
+        val button = findViewById<FloatingActionButton>(R.id.button)
 
-    }
+        button.setOnClickListener {
+            Intent(this, youtube::class.java).apply {
+                startActivity(this)
+            }
 
+        }
 
-    fun switchToYoutube(view: View) {
-        val intent = Intent(this, youtube::class.java)
-        startActivity(intent)
     }
 
 }
